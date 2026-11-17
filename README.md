@@ -7,7 +7,7 @@ A responsive, no-AI travel journal for two people. Built with HTML, CSS and vani
 ## Features
 
 - Editable day-by-day itinerary (add, edit, delete and reorder by time)
-- Restaurant shortlist and Google Maps restaurant search
+- Restaurant search near a selected Tokyo district using OpenStreetMap; Google Maps navigation links
 - Nearby discovery using OpenStreetMap Nominatim + Overpass
 - Interactive Leaflet map with saved itinerary and restaurant markers
 - Tokyo / Hakone weather from Open-Meteo (forecast appears only when dates are within the provider's forecast range)
@@ -63,7 +63,7 @@ The first implementation syncs the travel workspace as one JSON document in `tra
 
 ## Search and map data
 
-- Nearby search uses OpenStreetMap Nominatim for geocoding and the Overpass API for nearby features.
+- Food search and nearby discovery use OpenStreetMap Nominatim for geocoding and the Overpass API for nearby restaurant/place features.
 - Restaurant search opens Google Maps search results. Save a selected place through the manual restaurant form.
 - Maps use Leaflet and OpenStreetMap tiles.
 - Weather uses Open-Meteo.
