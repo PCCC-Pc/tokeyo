@@ -99,9 +99,57 @@ function renderJournal(){$("#journal-list").innerHTML=state.journals.map(j=>'<ar
 function places(){let a=[{name:"木場站／住宿基地",address:"東京都江東區",lat:35.6694,lng:139.806}];state.itinerary.forEach(d=>d.items.forEach(x=>{if(x.lat&&x.lng)a.push(Object.assign({day:d.date},x))}));state.restaurants.forEach(x=>{if(x.lat&&x.lng)a.push(x)});return a}
 function renderMap(){if(!window.L){$("#travel-map").textContent="地圖載入失敗，請確認網路。";return}if(!mapObj){mapObj=L.map("travel-map").setView([35.68,139.76],11);L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap contributors"}).addTo(mapObj)}setTimeout(()=>mapObj.invalidateSize(),100);mapMarkers.forEach(m=>m.remove());mapMarkers=[];let filter=$("#map-filter")?.value||"all";let list=places().filter(p=>filter==="all"||(filter==="food"?p.kind==="food":filter==="shopping"?p.kind==="shopping":filter==="itinerary"?p.kind!=="food"&&p.kind!=="shopping":true));list.forEach(p=>{let m=L.marker([p.lat,p.lng]).addTo(mapObj).bindPopup("<b>"+esc(p.name)+"</b><br>"+esc(p.address||"")+'<br><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination='+p.lat+','+p.lng+'">Google Maps 導航 ↗</a>');mapMarkers.push(m)});if(list.length)mapObj.fitBounds(L.latLngBounds(list.map(p=>[p.lat,p.lng])).pad(.12));$("#map-place-list").innerHTML=list.map(p=>'<button class="map-chip" data-lat="'+p.lat+'" data-lng="'+p.lng+'">'+esc(p.name)+'</button>').join("");$$(".map-chip").forEach(b=>b.onclick=()=>{mapObj.setView([+b.dataset.lat,+b.dataset.lng],15)})}
 function weatherLabel(c){if(c===0)return"晴朗";if([1,2,3].includes(c))return"多雲";if([45,48].includes(c))return"霧";if([51,53,55,56,57].includes(c))return"毛毛雨";if([61,63,65,66,67,80,81,82].includes(c))return"雨";if([71,73,75,77,85,86].includes(c))return"雪";if([95,96,99].includes(c))return"雷雨";return"天氣"}
-async function weather(place){weatherPlace=place;let loc=place==="Hakone"?{name:"箱根 Hakone",lat:35.232,lng:139.106}:{name:"東京 Tokyo",lat:35.6762,lng:139.6503};let box=$("#weather-content");box.innerHTML='<div class="empty-state">正在取得天氣資料…</div>';try{let r=await fetch("https://api.open-meteo.com/v1/forecast?latitude="+loc.lat+"&longitude="+loc.lng+"&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FTokyo&forecast_days=16"),data=await r.json(),d=data.daily,target=d.time.map((x,i)=>({date:x,hi:d.temperature_2m_max[i],lo:d.temperature_2m_min[i],rain:d.precipitation_probability_max[i],code:d.weather_code[i]})).filter(x=>x.date>="2026-12-26"&&x.date<="2027-01-14");if(!target.length){box.innerHTML='<article class="paper-panel"><span class="eyebrow">'+loc.name+'</span><h2>旅行天氣尚未開放預報</h2><p class="muted">目前可靠預報範圍約 16 天，距離旅行日期較遠。接近出發日期後再查詢逐日預報。</p></article>';return}box.innerHTML=target.map(x=>'<article class="weather-card"><span class="eyebrow">'+x.date+'</span><strong>'+weatherLabel(x.code)+'</strong><p>最高 '+x.hi+'°C　最低 '+x.lo+'°C</p><p>降雨機率 '+(x.rain??"—")+'%</p></article>').join("")}catch(e){box.innerHTML='<div class="empty-state">目前無法取得天氣資料，請稍後再試。</div>'}}
-async function geocode(q){let r=await fetch("https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q="+encodeURIComponent(q),{headers:{"Accept-Language":"zh-TW,ja,en"}}),a=await r.json();if(!a.length)throw Error("找不到這個地點");return {lat:+a[0].lat,lng:+a[0].lon,name:a[0].display_name}}
-async function overpass(center,kind,radius){let f={restaurant:'["amenity"="restaurant"]',cafe:'["amenity"="cafe"]',attraction:'["tourism"~"attraction|museum|gallery"]',shopping:'["shop"]',pharmacy:'["shop"="chemist"]'}[kind]||'["amenity"="restaurant"]',q='[out:json][timeout:25];(node(around:'+radius+','+center.lat+','+center.lng+')'+f+';way(around:'+radius+','+center.lat+','+center.lng+')'+f+';);out center tags 30;',r=await fetch("https://overpass-api.de/api/interpreter",{method:"POST",body:q});if(!r.ok)throw Error("附近搜尋服務暫時無法使用");let data=await r.json();return (data.elements||[]).map(x=>({id:String(x.id),name:x.tags?.name||x.tags?.["name:ja"],address:[x.tags?.["addr:street"],x.tags?.["addr:housenumber"]].filter(Boolean).join(" "),lat:x.lat||x.center?.lat,lng:x.lon||x.center?.lon,category:x.tags?.cuisine||x.tags?.amenity||x.tags?.shop||x.tags?.tourism||kind})).filter(x=>x.name&&x.lat&&x.lng).slice(0,30)}
+async function weather(place){
+  weatherPlace=place;
+  let loc=place==="Hakone"?{name:"箱根 Hakone",lat:35.232,lng:139.106}:{name:"東京 Tokyo",lat:35.6762,lng:139.6503};
+  let box=$("#weather-content");
+  box.innerHTML='<div class="empty-state">正在取得未來 7 天天氣…</div>';
+  try{
+    let url="https://api.open-meteo.com/v1/forecast?latitude="+loc.lat+"&longitude="+loc.lng+"&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FTokyo&forecast_days=7";
+    let r=await fetch(url);
+    if(!r.ok)throw Error("天氣服務暫時無法使用（"+r.status+"）");
+    let data=await r.json();
+    if(!data.daily||!data.daily.time?.length)throw Error("目前沒有可用的逐日預報");
+    let d=data.daily;
+    let days=d.time.map((date,i)=>({date,hi:d.temperature_2m_max[i],lo:d.temperature_2m_min[i],rain:d.precipitation_probability_max?.[i],code:d.weather_code[i]}));
+    let weekday=["週日","週一","週二","週三","週四","週五","週六"];
+    box.innerHTML='<div class="weather-week-heading"><strong>'+loc.name+'｜未來 7 天</strong><span>每日自動更新</span></div><div class="weather-week-grid">'+days.map(x=>'<article class="weather-card"><span class="eyebrow">'+x.date.slice(5).replace("-","/")+'　'+weekday[new Date(x.date+"T12:00:00+09:00").getDay()]+'</span><strong>'+weatherLabel(x.code)+'</strong><p class="weather-temp">'+Math.round(x.hi)+'° <span>/ '+Math.round(x.lo)+'°</span></p><p>降雨機率 '+(x.rain==null?"—":x.rain+"%")+'</p></article>').join("")+'</div><p class="muted small">資料來源：Open-Meteo。顯示從今天起連續七天的預報，與你的旅行日期無關。</p>';
+  }catch(e){
+    box.innerHTML='<div class="empty-state">目前無法取得天氣資料：'+esc(e.message)+'。請稍後重新切換城市或重試。</div><button class="secondary-button" type="button" id="weather-retry">重新載入天氣</button>';
+    let retry=$("#weather-retry");if(retry)retry.onclick=()=>weather(place);
+  }
+}
+async function geocode(q){
+  let errors=[];
+  try{
+    let r=await fetch("https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q="+encodeURIComponent(q),{headers:{"Accept-Language":"zh-TW,ja,en"}});
+    if(r.ok){let a=await r.json();if(a.length)return {lat:+a[0].lat,lng:+a[0].lon,name:a[0].display_name};}
+    else errors.push("Nominatim "+r.status);
+  }catch(e){errors.push(e.message)}
+  try{
+    let r=await fetch("https://photon.komoot.io/api/?limit=1&q="+encodeURIComponent(q));
+    if(r.ok){let a=await r.json(),p=a.features?.[0];if(p){let [lng,lat]=p.geometry.coordinates;return {lat:+lat,lng:+lng,name:p.properties.name||q};}}
+    else errors.push("Photon "+r.status);
+  }catch(e){errors.push(e.message)}
+  throw Error("找不到地點或地點搜尋服務暫時無法使用。");
+}
+async function overpass(center,kind,radius){
+  let f={restaurant:'["amenity"="restaurant"]',cafe:'["amenity"="cafe"]',attraction:'["tourism"~"attraction|museum|gallery"]',shopping:'["shop"]',pharmacy:'["shop"="chemist"]'}[kind]||'["amenity"="restaurant"]';
+  let q='[out:json][timeout:18];(node(around:'+radius+','+center.lat+','+center.lng+')'+f+';way(around:'+radius+','+center.lat+','+center.lng+')'+f+';);out center tags 20;';
+  let endpoints=["https://overpass.kumi.systems/api/interpreter","https://overpass.private.coffee/api/interpreter","https://overpass-api.de/api/interpreter"];
+  let lastError;
+  for(let endpoint of endpoints){
+    try{
+      let controller=new AbortController(),timer=setTimeout(()=>controller.abort(),22000);
+      let r=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded;charset=UTF-8"},body:"data="+encodeURIComponent(q),signal:controller.signal});
+      clearTimeout(timer);
+      if(!r.ok)throw Error("搜尋節點回應 "+r.status);
+      let data=await r.json();
+      return (data.elements||[]).map(x=>({id:String(x.id),name:x.tags?.name||x.tags?.["name:ja"],address:[x.tags?.["addr:street"],x.tags?.["addr:housenumber"]].filter(Boolean).join(" "),lat:x.lat||x.center?.lat,lng:x.lon||x.center?.lon,category:x.tags?.cuisine||x.tags?.amenity||x.tags?.shop||x.tags?.tourism||kind})).filter(x=>x.name&&x.lat&&x.lng).slice(0,30);
+    }catch(e){lastError=e;}
+  }
+  throw Error("附近地圖資料服務目前忙碌（"+(lastError?.message||"連線失敗")+"）。可先使用 Google Maps 搜尋。");
+}
 function showNearby(rows){$("#nearby-results").innerHTML=rows.map(p=>'<article class="place-card"><div class="place-card-body"><span class="eyebrow">'+esc(p.category)+'</span><h3>'+esc(p.name)+'</h3><p>'+esc(p.address||"地址未提供")+'</p><div class="place-card-actions"><button class="mini-button" data-save-nearby="'+esc(p.id)+'">收藏</button><a class="mini-button" target="_blank" href="https://www.google.com/maps/dir/?api=1&destination='+p.lat+','+p.lng+'">導航</a></div></div></article>').join("")||'<div class="empty-state">附近沒有找到符合條件的公開地點，可調大搜尋半徑。</div>';$$("[data-save-nearby]").forEach((b,i)=>b.onclick=()=>{let p=rows[i];if(state.restaurants.some(x=>x.name===p.name))return notify("已收藏");state.restaurants.unshift(Object.assign(p,{id:uid(),note:"附近探索收藏"}));save();notify("已收藏");})}
 async function nearbySearch(){let q=$("#nearby-query").value.trim();if(!q)return notify("請輸入地點");$("#nearby-results").innerHTML='<div class="empty-state">搜尋中…</div>';try{let c=await geocode(q),rows=await overpass(c,$("#nearby-kind").value,+$("#nearby-radius").value);showNearby(rows)}catch(e){$("#nearby-results").innerHTML='<div class="empty-state">'+esc(e.message)+'。可改用 Google Maps。</div><a target="_blank" class="primary-button" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q)+'">Google Maps 搜尋 ↗</a>'}}
 function currentLocation(){if(!navigator.geolocation)return notify("瀏覽器不支援定位");navigator.geolocation.getCurrentPosition(async p=>{try{let c={lat:p.coords.latitude,lng:p.coords.longitude},rows=await overpass(c,$("#nearby-kind").value,+$("#nearby-radius").value);showNearby(rows)}catch(e){notify(e.message)}},()=>notify("未授權定位，請輸入地點搜尋"),{timeout:10000,enableHighAccuracy:true})}
