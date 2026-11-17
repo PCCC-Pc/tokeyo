@@ -1,6 +1,4 @@
 -- FUJI TRAVEL JOURNAL: run this script once in Supabase SQL Editor.
-create extension if not exists pgcrypto;
-
 create table if not exists public.travel_trips (
   id uuid primary key default gen_random_uuid(),
   trip_name text not null default 'FUJI TRAVEL JOURNAL',
@@ -66,7 +64,7 @@ begin
   if auth.uid() is null then
     raise exception '請先登入';
   end if;
-  v_code := upper(substr(encode(gen_random_bytes(8), 'hex'), 1, 10));
+  v_code := upper(substr(replace(gen_random_uuid()::text, '-', ''), 1, 10));
   insert into public.travel_trips(trip_name, invite_code, created_by)
   values (coalesce(trip_name, 'FUJI TRAVEL JOURNAL'), v_code, auth.uid())
   returning id into v_trip;
