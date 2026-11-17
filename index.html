@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#e9eef0" />
-<link rel="manifest" href="./manifest.webmanifest">
+
 <link rel="icon" href="./fuji-icon.svg" type="image/svg+xml">
 <meta name="description" content="FUJI TRAVEL JOURNAL — Tokyo Winter Escape 2026–2027" />
 <title>FUJI TRAVEL JOURNAL · Tokyo Winter Escape</title>
@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Noto+Sans+JP:wght@400;500;600&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<link rel="stylesheet" href="./style.css?v=fix3" />
+<link rel="stylesheet" href="./style.css?v=fix7" />
 </head>
 <body>
 <div class="app-shell">
@@ -77,7 +77,7 @@
 
     <section class="page" id="page-accommodation"><div class="page-heading"><div><span class="eyebrow">WHERE WE STAY</span><h1>住宿資訊</h1><p>以木場站附近作為東京旅行基地。</p></div><button class="primary-button" id="edit-stay">編輯住宿</button></div><div class="paper-panel stay-panel"><div class="stay-art">KIBA <span>東京・江東區</span></div><div><span class="eyebrow">HOME BASE</span><h2>男友的租屋處</h2><p>東京都江東區・木場站附近</p><p class="muted">實際地址尚未提供。住宿費不列入旅行預算。</p><a target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/?api=1&query=Kiba+Station+Tokyo">在 Google Maps 查看木場站 ↗</a></div></div><div id="stay-extra"></div></section>
 
-    <section class="page" id="page-food"><div class="page-heading"><div><span class="eyebrow">TASTE TOKYO</span><h1>餐廳收藏</h1><p>搜尋、收藏，再把想吃的店排進旅程。</p></div><button class="primary-button" id="add-restaurant">＋ 手動新增</button></div><div class="search-panel"><input id="food-query" placeholder="輸入餐廳名稱、料理或地區，例如：銀座 壽司"><button class="primary-button" id="food-search">搜尋餐廳</button></div><div class="search-hints"><span>快速搜尋</span><button data-food="拉麵 東京">拉麵</button><button data-food="壽司 銀座">壽司</button><button data-food="炸豬排 東京">炸豬排</button><button data-food="咖啡廳 淺草">咖啡廳</button><button data-food="甜點 東京">甜點</button></div><div id="food-search-results" class="place-grid"></div><div class="section-heading"><div><span class="eyebrow">SAVED PLACES</span><h2>我的餐廳</h2></div><span id="restaurant-count" class="muted"></span></div><div id="restaurant-list" class="place-grid"></div><div class="external-search-note">餐廳即時搜尋會開啟 Google Maps 搜尋結果；收藏及自行新增的店家會保存在旅行資料中。</div></section>
+    <section class="page" id="page-food"><div class="page-heading"><div><span class="eyebrow">TASTE TOKYO</span><h1>餐廳收藏</h1><p>搜尋、收藏，再把想吃的店排進旅程。</p></div><button class="primary-button" id="add-restaurant">＋ 手動新增</button></div><div class="nearby-note">目前改為手動收藏餐廳，避免不穩定的即時搜尋影響使用。你可以新增已知店家，並填入地址與座標，加入旅行地圖。</div><div id="food-search-results" class="place-grid"></div><div class="section-heading"><div><span class="eyebrow">SAVED PLACES</span><h2>我的餐廳</h2></div><span id="restaurant-count" class="muted"></span></div><div id="restaurant-list" class="place-grid"></div></section>
 
     <section class="page" id="page-map"><div class="page-heading"><div><span class="eyebrow">OUR PLACES</span><h1>旅行地圖</h1><p>東京、箱根與旅途中想去的每個地方。</p></div><button class="secondary-button" id="map-fit">顯示全部地點</button></div><div class="map-toolbar"><select id="map-filter"><option value="all">所有地點</option><option value="itinerary">行程景點</option><option value="food">餐廳</option><option value="shopping">購物</option></select><span class="muted">選擇地標可查看資訊及導航</span></div><div id="travel-map"></div><div id="map-place-list" class="map-place-list"></div></section>
 
@@ -101,7 +101,7 @@
 <div id="toast" class="toast"></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="./app.js?v=fix6"></script>
+<script src="./app.js?v=fix7"></script>
 <script>if("serviceWorker" in navigator){window.addEventListener("load",async()=>{try{const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){console.warn("PWA cache cleanup",e)}});}</script>
 </body>
 </html>
