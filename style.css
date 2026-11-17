@@ -13,3 +13,19 @@
 .weather-temp span{font-size:.95rem;color:var(--muted,#8b8b83);font-weight:400}
 @media(max-width:900px){.weather-week-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.weather-week-grid{grid-template-columns:1fr 1fr;gap:8px}.weather-week-grid .weather-card{padding:13px 10px}}
+
+/* Weather page: full-width seven-day layout */
+#page-weather .weather-content{display:block!important;width:100%;max-width:none;min-width:0}
+#page-weather .weather-week-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:20px 0 14px;color:var(--navy)}
+#page-weather .weather-week-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:12px;width:100%;align-items:stretch}
+#page-weather .weather-week-grid .weather-card{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;min-width:0;min-height:190px;padding:18px 14px;background:var(--white);border:1px solid #e4e1d8;border-radius:16px;box-sizing:border-box;overflow-wrap:anywhere}
+#page-weather .weather-week-grid .weather-card .eyebrow{font-size:11px;white-space:nowrap}
+#page-weather .weather-week-grid .weather-card strong{display:block;margin:18px 0 12px;font-family:"Noto Serif TC",serif;font-size:17px;line-height:1.4;font-weight:500;color:var(--navy)}
+#page-weather .weather-week-grid .weather-card p{font-size:12px;line-height:1.65;margin:4px 0;color:var(--muted)}
+#page-weather .weather-week-grid .weather-card .weather-temp{font-size:22px!important;line-height:1.3;color:var(--navy);font-weight:600;margin:0 0 8px}
+#page-weather .weather-week-grid .weather-card .weather-temp span{font-size:15px;color:var(--muted);font-weight:400}
+#page-weather .weather-week-heading span{font-size:11px;color:var(--muted)}
+#page-weather .weather-source{white-space:nowrap}
+@media(max-width:1100px){#page-weather .weather-week-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:700px){#page-weather .weather-week-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}#page-weather .weather-week-grid .weather-card{min-height:165px;padding:14px 12px}}
+@media(max-width:380px){#page-weather .weather-week-grid{grid-template-columns:1fr 1fr}}
