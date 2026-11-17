@@ -1,5 +1,5 @@
 const KEY="fuji-travel-journal-v1",CFG="fuji-supabase-config";
-const $=s=>document.querySelector(s),$=s=>Array.from(document.querySelectorAll(s));
+const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const esc=s=>String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const yen=n=>"¥"+Number(n||0).toLocaleString("ja-JP");
 const dateText=d=>new Date(d+"T12:00:00+09:00").toLocaleDateString("zh-TW",{month:"2-digit",day:"2-digit",weekday:"short",timeZone:"Asia/Tokyo"});
