@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 650">
+<defs>
+ <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#91a9bf"/><stop offset=".54" stop-color="#c9d4d9"/><stop offset="1" stop-color="#ede8dc"/></linearGradient>
+ <linearGradient id="lake" x2="0" y2="1"><stop stop-color="#9eb3bf"/><stop offset=".55" stop-color="#718b9c"/><stop offset="1" stop-color="#aabac0"/></linearGradient>
+ <linearGradient id="mount" x2=".8" y2="1"><stop stop-color="#8197ac"/><stop offset=".55" stop-color="#60788e"/><stop offset="1" stop-color="#425f76"/></linearGradient>
+ <linearGradient id="snow" x2="0" y2="1"><stop stop-color="#fffdf5"/><stop offset="1" stop-color="#d9e2e4"/></linearGradient>
+ <filter id="paint"><feTurbulence type="fractalNoise" baseFrequency=".018 .08" numOctaves="3" seed="14" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="3"/></filter>
+ <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="2" seed="3"/><feColorMatrix values="0 0 0 0 .8 0 0 0 0 .8 0 0 0 0 .78 0 0 0 .08 0"/></filter>
+</defs>
+<rect width="1600" height="650" fill="url(#sky)"/>
+<circle cx="1260" cy="130" r="55" fill="#f6eed7" opacity=".8"/>
+<path d="M0 300 Q190 250 350 300 T700 285 T1050 300 T1600 275 L1600 430 L0 430Z" fill="#dfe4e0" opacity=".42"/>
+<g fill="none" stroke="#f2f0e7" stroke-linecap="round" opacity=".48" filter="url(#paint)">
+ <path d="M110 180 Q240 120 360 178" stroke-width="18"/><path d="M930 205 Q1080 155 1200 194" stroke-width="24"/><path d="M580 110 Q700 75 780 105" stroke-width="9"/>
+</g>
+<!-- distant ridges -->
+<path d="M0 430 L180 350 315 405 460 340 610 418 760 355 920 418 1070 348 1220 405 1400 348 1600 410 1600 520 0 520Z" fill="#a9b7bd" opacity=".75"/>
+<!-- Fuji -->
+<path d="M420 480 L770 82 Q800 45 830 83 L1190 480Z" fill="url(#mount)" filter="url(#paint)"/>
+<path d="M680 185 L770 82 805 116 846 95 890 161 933 138 1000 221 1045 187 1094 268 1145 310 1084 298 1035 317 990 281 946 291 896 244 854 258 807 214 760 244 716 224Z" fill="url(#snow)" filter="url(#paint)"/>
+<path d="M750 104 L770 82 805 116 846 95 890 161 861 145 831 160 806 130 787 145Z" fill="#fffdf6" opacity=".92"/>
+<g stroke="#dce3e2" stroke-linecap="round" fill="none" opacity=".5" filter="url(#paint)">
+ <path d="M520 380 Q650 330 760 355" stroke-width="12"/><path d="M840 355 Q960 315 1090 365" stroke-width="9"/><path d="M610 414 Q780 380 930 410" stroke-width="8"/>
+</g>
+<!-- snowy shore -->
+<path d="M0 430 Q190 390 370 426 T760 417 T1160 420 T1600 395 L1600 510 L0 510Z" fill="#f1efe6"/>
+<path d="M0 454 Q230 422 430 453 T840 438 T1240 448 T1600 427" fill="none" stroke="#d4d8d4" stroke-width="12" opacity=".7"/>
+<!-- lake -->
+<path d="M0 500 Q360 477 720 498 T1600 490 L1600 650 0 650Z" fill="url(#lake)"/>
+<path d="M480 504 Q770 526 1110 501 L1040 570 Q810 552 610 573Z" fill="#d4e0e1" opacity=".35" filter="url(#paint)"/>
+<g fill="none" stroke-linecap="round" filter="url(#paint)">
+ <path d="M470 530 Q790 545 1150 527" stroke="#e6e9df" stroke-width="10" opacity=".6"/>
+ <path d="M520 565 Q820 580 1080 558" stroke="#d8e1df" stroke-width="7" opacity=".5"/>
+ <path d="M380 610 Q720 594 1040 612" stroke="#e7e7dc" stroke-width="8" opacity=".44"/>
+ <path d="M80 548 Q250 535 400 548 M1170 545 Q1380 529 1530 548" stroke="#dae4e0" stroke-width="7" opacity=".36"/>
+</g>
+<!-- pine silhouettes -->
+<g fill="#536f6e" opacity=".9">
+ <path d="M160 470 l44-70 45 70h-25l34 48h-32l27 31h-97l27-31h-31l34-48Z"/>
+ <path d="M1350 468 l40-68 45 68h-25l33 45h-30l25 30h-91l26-30h-30l32-45Z"/>
+ <path d="M1450 476 l32-56 38 56h-21l27 40h-24l24 29h-80l24-29h-25l26-40Z"/>
+</g>
+<g fill="#756f5e"><rect x="200" y="515" width="9" height="32"/><rect x="1390" y="511" width="9" height="35"/><rect x="1480" y="516" width="8" height="30"/></g>
+<!-- textured paint glaze -->
+<rect width="1600" height="650" filter="url(#grain)" opacity=".3"/>
+</svg>
