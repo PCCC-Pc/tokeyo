@@ -4,6 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#e9eef0" />
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./fuji-icon.svg" type="image/svg+xml">
 <meta name="description" content="FUJI TRAVEL JOURNAL — Tokyo Winter Escape 2026–2027" />
 <title>FUJI TRAVEL JOURNAL · Tokyo Winter Escape</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -100,5 +102,6 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="./app.js"></script>
+<script>if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}</script>
 </body>
 </html>
