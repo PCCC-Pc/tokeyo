@@ -1,0 +1,19 @@
+{
+  "name": "FUJI TRAVEL JOURNAL — Tokyo Winter Escape",
+  "short_name": "FUJI JOURNAL",
+  "description": "東京與箱根冬季旅行手帳",
+  "lang": "zh-Hant",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f4ef",
+  "theme_color": "#d5e0e8",
+  "icons": [
+    {
+      "src": "./fuji-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
