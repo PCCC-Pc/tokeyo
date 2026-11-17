@@ -85,7 +85,7 @@
 
     <section class="page" id="page-checklist"><div class="page-heading"><div><span class="eyebrow">PREPARE & ENJOY</span><h1>旅行清單</h1><p>把出發前的小事，一件一件完成。</p></div><button class="primary-button" id="add-check">＋ 新增項目</button></div><div class="check-progress"><div><span>完成進度</span><b id="check-progress-text">0 / 0</b></div><div class="progress-track"><span id="check-progress-bar"></span></div></div><div id="checklist-groups" class="check-grid"></div></section>
 
-    <section class="page" id="page-weather"><div class="page-heading"><div><span class="eyebrow">WINTER FORECAST</span><h1>天氣</h1><p>依照旅行目的地查看天氣資訊。</p></div><span class="weather-source">資料來源：Open-Meteo</span></div><div class="weather-switch"><button class="active" data-weather="Tokyo">東京 Tokyo</button><button data-weather="Hakone">箱根 Hakone</button></div><div id="weather-content" class="weather-content"></div><p class="muted small">旅行期間的預報需待接近日期才能取得；較遠日期不會顯示虛構天氣。</p></section>
+    <section class="page" id="page-weather"><div class="page-heading"><div><span class="eyebrow">7-DAY FORECAST</span><h1>天氣</h1><p>查看所選城市從今天起，接下來連續七天的天氣預報。</p></div><span class="weather-source">資料來源：Open-Meteo</span></div><div class="weather-switch"><button class="active" data-weather="Tokyo">東京 Tokyo</button><button data-weather="Hakone">箱根 Hakone</button></div><div id="weather-content" class="weather-content"></div><p class="muted small">預報每日自動更新，顯示目前日期起算的未來七天，不會固定在旅行日期。</p></section>
 
     <section class="page" id="page-tickets"><div class="page-heading"><div><span class="eyebrow">FLIGHTS & RESERVATIONS</span><h1>票券與預約</h1><p>重要票券、預約及出入境資訊集中管理。</p></div><button class="primary-button" id="add-ticket">＋ 新增票券</button></div><div id="ticket-list" class="ticket-grid"></div><div class="section-heading"><div><span class="eyebrow">MOBILE CONNECTIVITY</span><h2>eSIM 管理</h2></div></div><div id="esim-list" class="ticket-grid"></div></section>
 
@@ -101,7 +101,7 @@
 <div id="toast" class="toast"></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="./app.js?v=fix5"></script>
+<script src="./app.js?v=fix6"></script>
 <script>if("serviceWorker" in navigator){window.addEventListener("load",async()=>{try{const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));if("caches" in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}}catch(e){console.warn("PWA cache cleanup",e)}});}</script>
 </body>
 </html>
