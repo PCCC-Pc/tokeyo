@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#e9eef0" />
+<meta name="description" content="FUJI TRAVEL JOURNAL — Tokyo Winter Escape 2026–2027" />
+<title>FUJI TRAVEL JOURNAL · Tokyo Winter Escape</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Noto+Sans+JP:wght@400;500;600&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <a class="brand" href="#home"><span class="brand-mark">富</span><span>FUJI <b>TRAVEL JOURNAL</b></span></a>
+    <nav id="main-nav" aria-label="主要導覽">
+      <button class="nav-link active" data-page="home">首頁</button>
+      <button class="nav-link" data-page="itinerary">行程</button>
+      <button class="nav-link" data-page="accommodation">住宿</button>
+      <button class="nav-link" data-page="food">餐廳</button>
+      <button class="nav-link" data-page="map">地圖</button>
+      <button class="nav-link" data-page="budget">預算</button>
+      <button class="nav-link" data-page="checklist">清單</button>
+      <button class="nav-link" data-page="weather">天氣</button>
+      <button class="nav-link" data-page="tickets">票券</button>
+      <button class="nav-link" data-page="nearby">附近探索</button>
+      <button class="nav-link" data-page="journal">日記</button>
+    </nav>
+    <div class="top-actions">
+      <span id="sync-indicator" class="sync-pill"><i></i> 本機模式</span>
+      <button class="icon-button" id="settings-button" aria-label="設定">⚙</button>
+      <button class="mobile-menu" id="mobile-menu" aria-label="開啟選單">☰</button>
+    </div>
+  </header>
+
+  <main id="app-content">
+    <section class="page active" id="page-home">
+      <div class="hero">
+        <div class="hero-image" role="img" aria-label="冬日富士山油畫風景"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-copy">
+          <p class="eyebrow">A WINTER JOURNEY · JAPAN</p>
+          <h1>FUJI TRAVEL<br><em>JOURNAL</em></h1>
+          <p class="hero-sub">TOKYO WINTER ESCAPE</p>
+          <div class="hero-date">2026.12.26 <span>—</span> 2027.01.14</div>
+        </div>
+        <div class="hero-caption">富士山 · 冬之旅　｜　東京・箱根</div>
+      </div>
+      <div class="home-intro">
+        <div><span class="eyebrow">OUR LITTLE WINTER STORY</span><h2>把冬天，收藏成一段旅程。</h2><p>東京與箱根的冬日散策，從富士山開始。</p></div>
+        <div class="countdown-panel"><span id="countdown-label">距離出發</span><strong id="countdown">—</strong><small>直到 2026 年 12 月 26 日</small></div>
+      </div>
+      <div class="quick-stats">
+        <article class="stat-card"><span>旅行期間</span><strong>20 天</strong><small>2026.12.26 — 2027.01.14</small></article>
+        <article class="stat-card"><span>旅行成員</span><strong>2 位</strong><small>一起探索東京與箱根</small></article>
+        <article class="stat-card"><span>住宿基地</span><strong>木場 KIBA</strong><small>東京都江東區附近</small></article>
+        <article class="stat-card"><span>旅程通行票</span><strong>THE TOKYO PASS</strong><small>2 日券｜1 位已購買</small></article>
+      </div>
+      <div class="section-heading"><div><span class="eyebrow">FLIGHT DETAILS</span><h2>航班資訊</h2></div><button class="text-button" data-go="tickets">管理票券 ↗</button></div>
+      <div class="flight-grid">
+        <article class="flight-card"><div class="flight-top"><span>去程 OUTBOUND</span><span class="flight-date">12.26 SAT</span></div><div class="flight-route"><div><b>TPE</b><strong>17:15</strong><small>桃園國際機場</small></div><span class="plane-line">✈ ─────</span><div><b>NRT</b><strong>21:30</strong><small>成田國際機場</small></div></div><div class="flight-foot">2026 年 12 月 26 日｜航班號碼待補</div></article>
+        <article class="flight-card"><div class="flight-top"><span>回程 RETURN</span><span class="flight-date">01.14 THU</span></div><div class="flight-route"><div><b>NRT</b><strong>09:25</strong><small>成田國際機場</small></div><span class="plane-line">✈ ─────</span><div><b>KHH</b><strong>13:00</strong><small>高雄國際機場</small></div></div><div class="flight-foot">2027 年 1 月 14 日｜航廈及航班號碼待補</div></article>
+      </div>
+      <div class="dashboard-grid">
+        <section class="paper-panel"><div class="section-heading compact"><div><span class="eyebrow">UP NEXT</span><h2>重要行程</h2></div><button class="text-button" data-go="itinerary">全部行程 ↗</button></div><div id="home-upcoming" class="upcoming-list"></div></section>
+        <section class="paper-panel"><div class="section-heading compact"><div><span class="eyebrow">TRAVEL NOTES</span><h2>旅程提醒</h2></div></div><div class="reminder-list"><p><b>eSIM</b><span>12/26 起 10 天、1/6 起 5 天；需補足 1/11–1/14。</span></p><p><b>THE TOKYO PASS</b><span>2 日券，預計 1/9、1/10 使用；沒有地鐵券。</span></p><p><b>機場交通</b><span>去回程皆為成田機場，請特別確認晚間末班與清晨首班車。</span></p></div></section>
+      </div>
+      <div class="footer-note">MADE FOR OUR WINTER DAYS · TOKYO 2026—2027</div>
+    </section>
+
+    <section class="page" id="page-itinerary"><div class="page-heading"><div><span class="eyebrow">DAY BY DAY</span><h1>旅行行程</h1><p>把每一天，慢慢排成喜歡的樣子。</p></div><button class="primary-button" id="add-itinerary">＋ 新增行程</button></div><div class="day-tabs" id="day-tabs"></div><div id="day-detail"></div></section>
+
+    <section class="page" id="page-accommodation"><div class="page-heading"><div><span class="eyebrow">WHERE WE STAY</span><h1>住宿資訊</h1><p>以木場站附近作為東京旅行基地。</p></div><button class="primary-button" id="edit-stay">編輯住宿</button></div><div class="paper-panel stay-panel"><div class="stay-art">KIBA <span>東京・江東區</span></div><div><span class="eyebrow">HOME BASE</span><h2>男友的租屋處</h2><p>東京都江東區・木場站附近</p><p class="muted">實際地址尚未提供。住宿費不列入旅行預算。</p><a target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/?api=1&query=Kiba+Station+Tokyo">在 Google Maps 查看木場站 ↗</a></div></div><div id="stay-extra"></div></section>
+
+    <section class="page" id="page-food"><div class="page-heading"><div><span class="eyebrow">TASTE TOKYO</span><h1>餐廳收藏</h1><p>搜尋、收藏，再把想吃的店排進旅程。</p></div><button class="primary-button" id="add-restaurant">＋ 手動新增</button></div><div class="search-panel"><input id="food-query" placeholder="輸入餐廳名稱、料理或地區，例如：銀座 壽司"><button class="primary-button" id="food-search">搜尋餐廳</button></div><div class="search-hints"><span>快速搜尋</span><button data-food="拉麵 東京">拉麵</button><button data-food="壽司 銀座">壽司</button><button data-food="炸豬排 東京">炸豬排</button><button data-food="咖啡廳 淺草">咖啡廳</button><button data-food="甜點 東京">甜點</button></div><div class="section-heading"><div><span class="eyebrow">SAVED PLACES</span><h2>我的餐廳</h2></div><span id="restaurant-count" class="muted"></span></div><div id="restaurant-list" class="place-grid"></div><div class="external-search-note">餐廳即時搜尋會開啟 Google Maps 搜尋結果；收藏及自行新增的店家會保存在旅行資料中。</div></section>
+
+    <section class="page" id="page-map"><div class="page-heading"><div><span class="eyebrow">OUR PLACES</span><h1>旅行地圖</h1><p>東京、箱根與旅途中想去的每個地方。</p></div><button class="secondary-button" id="map-fit">顯示全部地點</button></div><div class="map-toolbar"><select id="map-filter"><option value="all">所有地點</option><option value="itinerary">行程景點</option><option value="food">餐廳</option><option value="shopping">購物</option></select><span class="muted">選擇地標可查看資訊及導航</span></div><div id="travel-map"></div><div id="map-place-list" class="map-place-list"></div></section>
+
+    <section class="page" id="page-budget"><div class="page-heading"><div><span class="eyebrow">TRAVEL FINANCE</span><h1>旅行預算</h1><p>日幣記帳，雙人支出一目了然。</p></div><button class="primary-button" id="add-expense">＋ 新增支出</button></div><div class="budget-summary"><article><span>累計支出</span><strong id="total-jpy">¥0</strong></article><article><span>共同支出</span><strong id="shared-jpy">¥0</strong></article><article><span>記帳筆數</span><strong id="expense-count">0</strong></article></div><div class="paper-panel"><div class="section-heading compact"><div><span class="eyebrow">EXPENSE LOG</span><h2>支出紀錄</h2></div><button id="export-budget" class="text-button">匯出 CSV ↓</button></div><div id="expense-list"></div></div></section>
+
+    <section class="page" id="page-checklist"><div class="page-heading"><div><span class="eyebrow">PREPARE & ENJOY</span><h1>旅行清單</h1><p>把出發前的小事，一件一件完成。</p></div><button class="primary-button" id="add-check">＋ 新增項目</button></div><div class="check-progress"><div><span>完成進度</span><b id="check-progress-text">0 / 0</b></div><div class="progress-track"><span id="check-progress-bar"></span></div></div><div id="checklist-groups" class="check-grid"></div></section>
+
+    <section class="page" id="page-weather"><div class="page-heading"><div><span class="eyebrow">WINTER FORECAST</span><h1>天氣</h1><p>依照旅行目的地查看天氣資訊。</p></div><span class="weather-source">資料來源：Open-Meteo</span></div><div class="weather-switch"><button class="active" data-weather="Tokyo">東京 Tokyo</button><button data-weather="Hakone">箱根 Hakone</button></div><div id="weather-content" class="weather-content"></div><p class="muted small">旅行期間的預報需待接近日期才能取得；較遠日期不會顯示虛構天氣。</p></section>
+
+    <section class="page" id="page-tickets"><div class="page-heading"><div><span class="eyebrow">FLIGHTS & RESERVATIONS</span><h1>票券與預約</h1><p>重要票券、預約及出入境資訊集中管理。</p></div><button class="primary-button" id="add-ticket">＋ 新增票券</button></div><div id="ticket-list" class="ticket-grid"></div></section>
+
+    <section class="page" id="page-nearby"><div class="page-heading"><div><span class="eyebrow">DISCOVER AROUND YOU</span><h1>附近探索</h1><p>看看附近有什麼值得停下腳步的地方。</p></div></div><div class="nearby-controls"><input id="nearby-query" placeholder="輸入地點或景點，例如：東京鐵塔"><select id="nearby-kind"><option value="restaurant">餐廳</option><option value="cafe">咖啡廳</option><option value="attraction">景點</option><option value="shopping">購物</option><option value="pharmacy">藥妝店</option></select><select id="nearby-radius"><option value="1000">1 公里</option><option value="2000" selected>2 公里</option><option value="5000">5 公里</option></select><button class="primary-button" id="nearby-search">探索</button><button class="secondary-button" id="use-location">使用目前位置</button></div><div class="nearby-note">附近探索使用 OpenStreetMap 公開地點資料。手機定位需要你授權；也可以輸入景點名稱或地址搜尋。</div><div id="nearby-results" class="place-grid"></div></section>
+
+    <section class="page" id="page-journal"><div class="page-heading"><div><span class="eyebrow">MEMORIES</span><h1>旅行日記</h1><p>留下一點文字、一張照片，收藏這趟冬天。</p></div><button class="primary-button" id="add-journal">＋ 寫日記</button></div><div id="journal-list" class="journal-grid"></div></section>
+  </main>
+
+  <footer class="site-footer"><span>FUJI TRAVEL JOURNAL</span><span>東京・箱根｜2026—2027</span><span id="footer-save">資料儲存於此裝置</span></footer>
+</div>
+
+<div id="modal-root" class="modal-root" aria-live="polite"></div>
+<div id="toast" class="toast"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
